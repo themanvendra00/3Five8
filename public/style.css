@@ -1,0 +1,68 @@
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: url("https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjk0NC1iYi0xNi5qcGc.jpg") no-repeat;
+  background-size: cover;
+}
+
+#container {
+  width: 90%;
+  max-width: 650px;
+  margin: 40px auto;
+}
+
+header {
+  text-align: center;
+}
+
+header h1 {
+  font-weight: 800;
+}
+
+blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  border-radius: 5px;
+  margin: 1.8em 10px;
+  padding: 0.5em 10px;
+  font-size: 14px;
+}
+
+blockquote:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+
+blockquote p {
+  display: inline;
+}
+
+form {
+  background-color: #e0e1e0;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  border-radius: 5px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 6px;
+  margin: 10px 0;
+}
+
+input[type="submit"] {
+  background-color: #b4c6bb;
+  border: 1px solid #b4c6bb;
+}
+
+input[type="submit"]:hover {
+  background-color: #809388;
+}

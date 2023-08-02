@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <title>Facility/Common Amenities Booking Module</title>
+</head>
+
+<body>
+  <div id="container">
+    <header>
+      <h1>Facility Booking</h1>
+      <p>Experience the joy of leisure and relaxation.</p>
+      <blockquote>
+        "The only limit to our realization of tomorrow will be our doubts of today." - Franklin D. Roosevelt
+      </blockquote>
+    </header>
+    <form id="bookingForm">
+      <label for="facility">Facility:</label>
+      <select id="facility" name="facility">
+        <option value="Clubhouse">Clubhouse</option>
+        <option value="Tennis Court">Tennis Court</option>
+        <option value="Swiming Pool">Swiming Pool</option>
+        <option value="Playground">Playground</option>
+      </select>
+      <label for="date">Date (DD-MM-YYYY):</label>
+      <input type="text" id="date" name="date" placeholder="Enter date">
+      <label for="startTime">Start Time (HH:mm):</label>
+      <input type="text" id="startTime" name="startTime" placeholder="Enter start time">
+      <label for="endTime">End Time (HH:mm):</label>
+      <input type="text" id="endTime" name="endTime" placeholder="Enter end time">
+      <input type="submit" value="Book Facility">
+    </form>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+
+</html>
