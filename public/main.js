@@ -28,7 +28,7 @@ document.getElementById("bookingForm").addEventListener("submit", (e) => {
 
   submitBtn.setAttribute("value", "Loading...");
 
-  fetch("https://expensive-tuna-snaps.cyclic.cloud/book", {
+  fetch("http://localhost:8080/book", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
