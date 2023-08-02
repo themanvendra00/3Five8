@@ -10,6 +10,8 @@ const Toast = Swal.mixin({
   },
 });
 
+const submitBtn = document.getElementById("submitbtn");
+
 document.getElementById("bookingForm").addEventListener("submit", (e) => {
   e.preventDefault();
   let facility = document.getElementById("facility").value;
@@ -24,7 +26,9 @@ document.getElementById("bookingForm").addEventListener("submit", (e) => {
     endTime,
   };
 
-  fetch("http://localhost:8080/book", {
+  submitBtn.setAttribute("value", "Loading...");
+
+  fetch("https://expensive-tuna-snaps.cyclic.cloud/book", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -33,6 +37,7 @@ document.getElementById("bookingForm").addEventListener("submit", (e) => {
   })
     .then((res) => res.json())
     .then((data) => {
+      submitBtn.setAttribute("value", "Book Facility");
       if (data.status === "Booked") {
         Toast.fire({
           icon: "success",
