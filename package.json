@@ -1,0 +1,16 @@
+{
+  "name": "3five8",
+  "version": "1.0.0",
+  "description": "Facility/Common Amenities Booking Module",
+  "main": "index.js",
+  "scripts": {
+    "server": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}
