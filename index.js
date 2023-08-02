@@ -10,7 +10,7 @@ const bookedSlots = {};
 
 // Helper function to convert time string to minutes
 function timeToMinutes(timeStr) {
-  const [hours, minutes] = timeStr.split(":").map(Number);
+  const [hours, minutes] = timeStr.split(':').map(Number);
   return hours * 60 + minutes;
 }
 
@@ -24,47 +24,53 @@ app.post("/book", (req, res) => {
     return res.status(404).json({ error: "Facility not found" });
   }
 
-  // Parsing the date and time
-  const [day, month, year] = date.split("-").map(Number);
-  const startMinutes = timeToMinutes(startTime);
-  const endMinutes = timeToMinutes(endTime);
+// Converting date and time formats to match the expected format
+const [year, month, day] = date.split('-');
+const formattedDate = `${day}-${month}-${year}`;
+const formattedStartTime = startTime.substring(0, 5);
+const formattedEndTime = endTime.substring(0, 5);
 
-  // checking for valid date and time
-  if (
-    isNaN(day) ||
-    isNaN(month) ||
-    isNaN(year) ||
-    isNaN(startMinutes) ||
-    isNaN(endMinutes)
-  ) {
-    return res.status(400).json({ error: "Invalid date or time format" });
-  }
+// Validate date and time
+const bookingDate = new Date(`${year}-${month}-${day}`);
+const startDateTime = new Date(`${formattedDate} ${formattedStartTime}`);
+const endDateTime = new Date(`${formattedDate} ${formattedEndTime}`);
 
-  const validSlot = facilityConfig.slots.some((slot) => {
-    const slotStartMinutes = timeToMinutes(slot.start);
-    const slotEndMinutes = timeToMinutes(slot.end);
-    return startMinutes >= slotStartMinutes && endMinutes <= slotEndMinutes;
-  });
+if (
+  isNaN(bookingDate) ||
+  isNaN(startDateTime) ||
+  isNaN(endDateTime) ||
+  startDateTime >= endDateTime
+) {
+  return res.status(400).json({ error: 'Invalid date or time format' });
+}
 
-  if (!validSlot) {
-    return res.status(400).json({ error: "Invalid booking time slot" });
-  }
+const validSlot = facilityConfig.slots.some((slot) => {
+  const slotStartMinutes = timeToMinutes(slot.start);
+  const slotEndMinutes = timeToMinutes(slot.end);
+  return timeToMinutes(formattedStartTime) >= slotStartMinutes && timeToMinutes(formattedEndTime) <= slotEndMinutes;
+});
+
+if (!validSlot) {
+  return res.status(400).json({ error: 'Invalid booking time slot' });
+}
 
   // Checking if the slot is already booked or not
-  const existingBooking = bookedSlots[facility]?.[date];
+  const existingBooking = bookedSlots[facility]?.[formattedDate];
   if (existingBooking) {
     const overlapping = existingBooking.some((booking) => {
       const bookingStartMinutes = timeToMinutes(booking.startTime);
       const bookingEndMinutes = timeToMinutes(booking.endTime);
       return (
-        (startMinutes >= bookingStartMinutes &&
-          startMinutes <= bookingEndMinutes) ||
-        (endMinutes >= bookingStartMinutes && endMinutes <= bookingEndMinutes)
+        timeToMinutes(formattedStartTime) >= bookingStartMinutes &&
+        timeToMinutes(formattedStartTime) <= bookingEndMinutes
+      ) || (
+        timeToMinutes(formattedEndTime) >= bookingStartMinutes &&
+        timeToMinutes(formattedEndTime) <= bookingEndMinutes
       );
     });
 
     if (overlapping) {
-      return res.status(409).json({ error: "Booking Failed, Already Booked" });
+      return res.status(409).json({ error: 'Booking Failed, Already Booked' });
     }
   }
 
@@ -72,8 +78,8 @@ app.post("/book", (req, res) => {
   const totalAmount = facilityConfig.slots.reduce((total, slot) => {
     const slotStartMinutes = timeToMinutes(slot.start);
     const slotEndMinutes = timeToMinutes(slot.end);
-    const intersectionStart = Math.max(startMinutes, slotStartMinutes);
-    const intersectionEnd = Math.min(endMinutes, slotEndMinutes);
+    const intersectionStart = Math.max(timeToMinutes(formattedStartTime), slotStartMinutes);
+    const intersectionEnd = Math.min(timeToMinutes(formattedEndTime), slotEndMinutes);
     const intersectionDuration = intersectionEnd - intersectionStart;
     return total + slot.amount * (intersectionDuration / 60);
   }, 0);
@@ -81,12 +87,12 @@ app.post("/book", (req, res) => {
   if (!bookedSlots[facility]) {
     bookedSlots[facility] = {};
   }
-  if (!bookedSlots[facility][date]) {
-    bookedSlots[facility][date] = [];
+  if (!bookedSlots[facility][formattedDate]) {
+    bookedSlots[facility][formattedDate] = [];
   }
-  bookedSlots[facility][date].push({ startTime, endTime });
+  bookedSlots[facility][formattedDate].push({ startTime: formattedStartTime, endTime: formattedEndTime });
 
-  return res.status(200).json({ status: "Booked", amount: totalAmount });
+  return res.status(200).json({ status: 'Booked', amount: totalAmount });
 });
 
 const port = 8080;
