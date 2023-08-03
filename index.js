@@ -89,7 +89,7 @@ app.post("/book", (req, res) => {
   return res.status(200).json({ status: "Booked", amount: totalAmount });
 });
 
-const port = 8080;
+const port = 3000;
 app.listen(port, () => {
   console.log(`server is running on port ${port}`);
 });

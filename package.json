@@ -1,7 +1,7 @@
 {
-  "name": "3five8",
+  "name": "3five8-assignment",
   "version": "1.0.0",
-  "description": "Facility/Common Amenities Booking Module",
+  "description": "Facility Booking Module",
   "main": "index.js",
   "scripts": {
     "server": "node index.js"
