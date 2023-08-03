@@ -28,7 +28,7 @@ document.getElementById("bookingForm").addEventListener("submit", (e) => {
 
   submitBtn.setAttribute("value", "Loading...");
 
-  fetch("https://defiant-fox-sweatshirt.cyclic.cloud/book", {
+  fetch("https://threefive8-xwf0.onrender.com/book", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
